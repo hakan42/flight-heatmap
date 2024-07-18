@@ -27,9 +27,21 @@ def generate_heatmap(data, output_file='heatmap.html'):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate a heatmap from GPX files")
-    parser.add_argument('directory', type=str, help='Directory containing GPX files')
-    parser.add_argument('output', type=str, help='Output HTML file for the heatmap')
+    parser.add_argument(
+        'directory',
+        type=str,
+        nargs='?',
+        default='/app/gpx_files',
+        help='Directory containing GPX files (default: /app/gpx_files)'
+    )
+    parser.add_argument(
+        'output_html',
+        type=str,
+        nargs='?',
+        default='/app/output/heatmap.html',
+        help='Output HTML file for the heatmap (default: /app/output/heatmap.html)'
+    )
     args = parser.parse_args()
 
     data = read_gpx_files(args.directory)
-    generate_heatmap(data, args.output)
+    generate_heatmap(data, args.output_html)
