@@ -18,9 +18,8 @@ output/
 # Ignore GPX files (they will be mounted during runtime)
 gpx_files/
 
-# Ignore Dockerfile and requirements.txt if not needed in the image
+# Ignore Dockerfile if not needed in the image
 Dockerfile
-requirements.txt
 
 # Explicitly ignore the .git directory
 .git/
