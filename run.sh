@@ -43,10 +43,13 @@ fi
 DATA=${HERE}/data
 DATA=$(realpath ${DATA})
 
+OUTPUT=${HERE}/output
+OUTPUT=$(realpath ${OUTPUT})
+
 for YEAR in ${YEARS}
 do
-    rm -rf ${DATA}/output-${YEAR}
-    mkdir -p ${DATA}/output-${YEAR}
+    rm -rf ${OUTPUT}/${YEAR}
+    mkdir -p ${OUTPUT}/${YEAR}
 
     docker run \
            --rm \
@@ -58,6 +61,6 @@ do
            --volume /etc/timezone:/etc/timezone:ro \
            --volume /etc/resolv.conf:/etc/resolv.conf:ro \
            --mount type=bind,source=${DATA}/${YEAR},target=/app/gpx_files \
-           --mount type=bind,source=${DATA}/output-${YEAR},target=/app/output \
+           --mount type=bind,source=${OUTPUT}/${YEAR},target=/app/output \
            ${DOCKER_IMAGE}
 done

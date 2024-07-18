@@ -16,7 +16,7 @@ __pycache__/
 output/
 
 # Ignore GPX files (they will be mounted during runtime)
-gpx_files/
+data/
 
 # Ignore Dockerfile if not needed in the image
 Dockerfile
