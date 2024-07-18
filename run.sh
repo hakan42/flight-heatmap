@@ -5,6 +5,19 @@ export DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:latest
 
 export NAME=heatmap-$(id -un)
 
+if [ -z ${WORKSPACE} ]
+then
+    HERE=$(dirname $0)
+else
+    HERE=${WORKSPACE}
+fi
+
+DATA=${HERE}/data
+DATA=$(realpath ${DATA})
+
+OUTPUT=${HERE}/output
+OUTPUT=$(realpath ${OUTPUT})
+
 
 SHELL_MODE="-it"
 ARGUMENTS=""
@@ -21,6 +34,13 @@ do
             SHELL_MODE=""
             ;;
 
+        -a|--all)
+            for d in ${DATA}/*
+            do
+                YEARS="${YEARS} $(basename ${d})"
+            done
+            ;;
+
         *)
             YEARS="${YEARS} ${arg}"
             ;;
@@ -29,22 +49,8 @@ done
 
 if [ -z "${YEARS}" ]
 then
-    YEARS=2024
+    YEARS=2024 2024-07
 fi
-     
-
-if [ -z ${WORKSPACE} ]
-then
-    HERE=$(dirname $0)
-else
-    HERE=${WORKSPACE}
-fi
-
-DATA=${HERE}/data
-DATA=$(realpath ${DATA})
-
-OUTPUT=${HERE}/output
-OUTPUT=$(realpath ${OUTPUT})
 
 for YEAR in ${YEARS}
 do
