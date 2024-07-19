@@ -22,8 +22,11 @@ def read_gpx_files(directory):
                             yield segment_points  # Yield each segment's points to be plotted as lines
 
 def generate_heatmap(data, line_segments, output_file='heatmap.html'):
-    map_center = [data['lat'].mean(), data['lon'].mean()]
-    folium_map = folium.Map(location=map_center, zoom_start=12)
+    # Calculate the bounds
+    bounds = [[data['lat'].min(), data['lon'].min()], [data['lat'].max(), data['lon'].max()]]
+
+    folium_map = folium.Map()
+    folium_map.fit_bounds(bounds)
 
     # Add tracks as thin lines
     for segment in line_segments:
