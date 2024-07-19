@@ -5,6 +5,10 @@ import folium
 import os
 import json
 from folium.plugins import HeatMap
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 
 
 def read_gpx_files(directory):
@@ -65,6 +69,24 @@ def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_fil
     with open(bounds_file, 'w') as f:
         json.dump({'bounds': bounds}, f, indent=4)
 
+def create_screenshot(html_file, output_png):
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1280x800')
+    options.add_argument('--remote-debugging-port=9222')
+    options.add_argument('--disable-software-rasterizer')
+    options.add_argument('--disable-features=VizDisplayCompositor')
+    options.add_argument('--disable-features=NetworkService,NetworkServiceInProcess')
+
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.set_page_load_timeout(600)
+
+    driver.save_screenshot(output_png)
+    driver.quit()
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate a heatmap from GPX files")
@@ -81,6 +103,13 @@ if __name__ == "__main__":
         nargs='?',
         default='/app/output/heatmap.html',
         help='Output HTML file for the heatmap (default: /app/output/heatmap.html)'
+    )
+    parser.add_argument(
+        'output_png',
+        type=str,
+        nargs='?',
+        default='/app/output/heatmap.png',
+        help='Output PNG file for the screenshot (default: /app/output/heatmap.png)'
     )
     parser.add_argument(
         'bounds_file',
@@ -100,3 +129,4 @@ if __name__ == "__main__":
 
     data, line_segments, file_names = read_gpx_files(args.directory)
     generate_heatmap(data, line_segments, args.output_html, args.bounds_file, args.title_file)
+    # create_screenshot(args.output_html, args.output_png)
