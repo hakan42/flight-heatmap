@@ -3,3 +3,5 @@ folium
 numpy
 pandas
 matplotlib
+selenium
+webdriver-manager
