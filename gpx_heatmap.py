@@ -26,7 +26,7 @@ def read_gpx_files(directory):
                             line_segments.append(segment_points)
     return pd.DataFrame(data, columns=['lat', 'lon', 'elevation', 'time']), line_segments, file_names
 
-def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_file='bounds.json'):
+def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_file='bounds.json', title_file=None):
     # Load bounds from file if available
     if os.path.exists(bounds_file):
         with open(bounds_file, 'r') as f:
@@ -51,7 +51,12 @@ def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_fil
     HeatMap(heat_data).add_to(folium_map)
 
     # Add title to the map
-    title = ', '.join(file_names)
+    title = 'Map'
+    if title_file and os.path.exists(title_file):
+        with open(title_file, 'r') as f:
+            title = f.read().strip()
+    else:
+        title = ', '.join(file_names)
     folium_map.get_root().html.add_child(folium.Element(f'<title>{title}</title>'))
 
     folium_map.save(output_file)
@@ -84,7 +89,14 @@ if __name__ == "__main__":
         default='/app/output/bounds.json',
         help='Output JSON file for the bounds (default: /app/output/bounds.json)'
     )
+    parser.add_argument(
+        'title_file',
+        type=str,
+        nargs='?',
+        default='/app/output/title.txt',
+        help='File containing the title for the HTML document (default: /app/output/title.txt)'
+    )
     args = parser.parse_args()
 
     data, line_segments, file_names = read_gpx_files(args.directory)
-    generate_heatmap(data, line_segments, args.output_html, args.bounds_file)
+    generate_heatmap(data, line_segments, args.output_html, args.bounds_file, args.title_file)

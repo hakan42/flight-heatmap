@@ -65,6 +65,8 @@ do
         cp ${BOUNDS}/${YEAR}/bounds.json ${OUTPUT}/${YEAR}/bounds.json
     fi
 
+    echo ${YEAR} > ${OUTPUT}/${YEAR}/title.txt
+
     docker run \
            --rm \
            ${SHELL_MODE} \
