@@ -15,6 +15,9 @@ fi
 DATA=${HERE}/data
 DATA=$(realpath ${DATA})
 
+BOUNDS=${HERE}/bounds
+BOUNDS=$(realpath ${BOUNDS})
+
 OUTPUT=${HERE}/output
 OUTPUT=$(realpath ${OUTPUT})
 
@@ -49,13 +52,18 @@ done
 
 if [ -z "${YEARS}" ]
 then
-    YEARS=2024 2024-07
+    YEARS="2024 2024-07"
 fi
 
 for YEAR in ${YEARS}
 do
     rm -rf ${OUTPUT}/${YEAR}
     mkdir -p ${OUTPUT}/${YEAR}
+
+    if [ -r ${BOUNDS}/${YEAR}/bounds.json ]
+    then
+        cp ${BOUNDS}/${YEAR}/bounds.json ${OUTPUT}/${YEAR}/bounds.json
+    fi
 
     docker run \
            --rm \

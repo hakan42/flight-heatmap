@@ -23,8 +23,17 @@ def read_gpx_files(directory):
                             yield segment_points  # Yield each segment's points to be plotted as lines
 
 def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_file='bounds.json'):
-    # Calculate the bounds
-    bounds = [[data['lat'].min(), data['lon'].min()], [data['lat'].max(), data['lon'].max()]]
+    # Load bounds from file if available
+    if os.path.exists(bounds_file):
+        with open(bounds_file, 'r') as f:
+            bounds_data = json.load(f)
+        bounds = bounds_data.get('bounds')
+    else:
+        # Calculate the bounds if file not available
+        bounds = [[data['lat'].min(), data['lon'].min()], [data['lat'].max(), data['lon'].max()]]
+        # Save bounds to a pretty-printed JSON file
+        with open(bounds_file, 'w') as f:
+            json.dump({'bounds': bounds}, f, indent=4)
 
     folium_map = folium.Map()
     folium_map.fit_bounds(bounds)
