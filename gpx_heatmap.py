@@ -3,6 +3,7 @@ import gpxpy.gpx
 import pandas as pd
 import folium
 import os
+import json
 from folium.plugins import HeatMap
 
 
@@ -21,7 +22,7 @@ def read_gpx_files(directory):
                         if segment_points:
                             yield segment_points  # Yield each segment's points to be plotted as lines
 
-def generate_heatmap(data, line_segments, output_file='heatmap.html'):
+def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_file='bounds.json'):
     # Calculate the bounds
     bounds = [[data['lat'].min(), data['lon'].min()], [data['lat'].max(), data['lon'].max()]]
 
@@ -36,6 +37,10 @@ def generate_heatmap(data, line_segments, output_file='heatmap.html'):
     heat_data = [[row['lat'], row['lon']] for index, row in data.iterrows()]
     HeatMap(heat_data).add_to(folium_map)
     folium_map.save(output_file)
+
+    # Save bounds to a pretty-printed JSON file
+    with open(bounds_file, 'w') as f:
+        json.dump({'bounds': bounds}, f, indent=4)
 
 if __name__ == "__main__":
     import argparse
@@ -54,8 +59,15 @@ if __name__ == "__main__":
         default='/app/output/heatmap.html',
         help='Output HTML file for the heatmap (default: /app/output/heatmap.html)'
     )
+    parser.add_argument(
+        'bounds_file',
+        type=str,
+        nargs='?',
+        default='/app/output/bounds.json',
+        help='Output JSON file for the bounds (default: /app/output/bounds.json)'
+    )
     args = parser.parse_args()
 
     line_segments = list(read_gpx_files(args.directory))
     data = pd.DataFrame([point for segment in line_segments for point in segment], columns=['lat', 'lon'])
-    generate_heatmap(data, line_segments, args.output_html)
+    generate_heatmap(data, line_segments, args.output_html, args.bounds_file)
