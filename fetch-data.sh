@@ -49,7 +49,13 @@ do
     done
 done
 
+mkdir ${DATA}/pre-corona
+cp -avr ${DATA}/2020/* ${DATA}/pre-corona
 
+mkdir ${DATA}/restarted
+cp -avr ${DATA}/2021/* ${DATA}/restarted
+cp -avr ${DATA}/2023/* ${DATA}/restarted
+cp -avr ${DATA}/2024/* ${DATA}/restarted
 
-
-
+# We don't have good data in EDML during 2023
+rm -f ${DATA}/restarted/*2023-08-*
