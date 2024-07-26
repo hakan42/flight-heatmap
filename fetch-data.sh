@@ -8,6 +8,8 @@ else
 fi
 
 DATA=${HERE}/data
+DATA=$(realpath ${DATA})
+
 SOURCE="${HOME}/resilio-sync/sync/Flight Tracks"
 
 if [ -d "/mnt/blacklibrary/aviation/tracks" ]
