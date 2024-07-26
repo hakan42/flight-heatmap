@@ -7,7 +7,6 @@ import json
 from folium.plugins import HeatMap
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 
 
@@ -81,7 +80,8 @@ def create_screenshot(html_file, output_png):
     options.add_argument('--disable-features=VizDisplayCompositor')
     options.add_argument('--disable-features=NetworkService,NetworkServiceInProcess')
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    service = Service("/usr/local/bin/chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
     driver.set_page_load_timeout(600)
 
     driver.save_screenshot(output_png)
