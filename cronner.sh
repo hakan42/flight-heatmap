@@ -16,6 +16,6 @@ mkdir -p ${LOG}
 export NAME=heatmap-$(id -un)
 docker rm -f ${NAME}        > ${LOG}/docker-rm.out     2> ${LOG}/docker-rm.err
 
-sh ${HERE}/fetch-data.sh    > ${LOG}/fetch-data.out    2> ${LOG}/fetch-data.err
-sh ${HERE}/run.sh --all     > ${LOG}/run.out           2> ${LOG}/run.err
-sh ${HERE}/push-heatmaps.sh > ${LOG}/push-heatmaps.out 2> ${LOG}/push-heatmaps.err
+sh -x ${HERE}/fetch-data.sh    > ${LOG}/fetch-data.out    2> ${LOG}/fetch-data.err
+sh -x ${HERE}/run.sh --all     > ${LOG}/run.out           2> ${LOG}/run.err
+sh -x ${HERE}/push-heatmaps.sh > ${LOG}/push-heatmaps.out 2> ${LOG}/push-heatmaps.err
