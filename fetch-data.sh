@@ -10,6 +10,11 @@ fi
 DATA=${HERE}/data
 SOURCE="${HOME}/resilio-sync/sync/Flight Tracks"
 
+if [ -d "/mnt/blacklibrary/aviation/tracks" ]
+then
+    SOURCE="/mnt/blacklibrary/aviation/tracks"
+fi
+
 mkdir -p ${DATA}
 
 cp "${SOURCE}"/gpx/* ${DATA}
