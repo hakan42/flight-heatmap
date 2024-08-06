@@ -29,7 +29,7 @@ def read_gpx_files(directory):
                             line_segments.append(segment_points)
     return pd.DataFrame(data, columns=['lat', 'lon', 'elevation', 'time']), line_segments, file_names
 
-def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_file='bounds.json', title_file=None):
+def generate_heatmap(data, line_segments, file_names, output_html='heatmap.html', bounds_file='bounds.json', title_file=None, basemap='openstreetmap'):
     # Load bounds from file if available
     if os.path.exists(bounds_file):
         with open(bounds_file, 'r') as f:
@@ -42,8 +42,17 @@ def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_fil
         with open(bounds_file, 'w') as f:
             json.dump({'bounds': bounds}, f, indent=4)
 
-    folium_map = folium.Map()
-    folium_map.fit_bounds(bounds)
+    # Determine the basemap
+    if basemap == 'openaip':
+        api_key = os.getenv('OPENAIP_API_KEY')
+        tiles = f'https://tiles.openaip.net/openaip/{{z}}/{{x}}/{{y}}.png?key={api_key}'
+        attr = 'openAIP'
+    else:
+        tiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        attr = 'OpenStreetMap'
+
+    # Create a Folium map with the specified basemap
+    folium_map = folium.Map(tiles=tiles, attr=attr, location=[data['lat'].mean(), data['lon'].mean()], zoom_start=10)
 
     # Add tracks as thin lines
     for segment in line_segments:
@@ -62,7 +71,7 @@ def generate_heatmap(data, line_segments, output_file='heatmap.html', bounds_fil
         title = ', '.join(file_names)
     folium_map.get_root().html.add_child(folium.Element(f'<title>{title}</title>'))
 
-    folium_map.save(output_file)
+    folium_map.save(output_html)
 
     # Save bounds to a pretty-printed JSON file
     with open(bounds_file, 'w') as f:
@@ -98,18 +107,11 @@ if __name__ == "__main__":
         help='Directory containing GPX files (default: /app/gpx_files)'
     )
     parser.add_argument(
-        'output_html',
+        'output_dir',
         type=str,
         nargs='?',
-        default='/app/output/heatmap.html',
-        help='Output HTML file for the heatmap (default: /app/output/heatmap.html)'
-    )
-    parser.add_argument(
-        'output_png',
-        type=str,
-        nargs='?',
-        default='/app/output/heatmap.png',
-        help='Output PNG file for the screenshot (default: /app/output/heatmap.png)'
+        default='/app/output',
+        help='Output directory for the heatmaps and screenshots (default: /app/output)'
     )
     parser.add_argument(
         'bounds_file',
@@ -128,5 +130,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data, line_segments, file_names = read_gpx_files(args.directory)
-    generate_heatmap(data, line_segments, args.output_html, args.bounds_file, args.title_file)
-    # create_screenshot(args.output_html, args.output_png)
+
+    # Generate heatmap with OpenStreetMap basemap
+    generate_heatmap(data, line_segments, file_names, output_html=os.path.join(args.output_dir, 'heatmap_openstreetmap.html'), bounds_file=args.bounds_file, title_file=args.title_file, basemap='openstreetmap')
+    # create_screenshot(html_file=os.path.join(args.output_dir, 'heatmap_openstreetmap.html'), output_png=os.path.join(args.output_dir, 'heatmap_openstreetmap.png'))
+
+    # Generate heatmap with openAIP basemap
+    generate_heatmap(data, line_segments, file_names, output_html=os.path.join(args.output_dir, 'heatmap_openaip.html'), bounds_file=args.bounds_file, title_file=args.title_file, basemap='openaip')
+    # create_screenshot(html_file=os.path.join(args.output_dir, 'heatmap_openaip.html'), output_png=os.path.join(args.output_dir, 'heatmap_openaip.png'))
