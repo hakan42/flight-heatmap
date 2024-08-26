@@ -21,6 +21,11 @@ BOUNDS=$(realpath ${BOUNDS})
 OUTPUT=${HERE}/output
 OUTPUT=$(realpath ${OUTPUT})
 
+if [ -r ${HERE}/secrets.sh ]
+then
+    . ${HERE}/secrets.sh
+fi
+
 
 SHELL_MODE="-it"
 ARGUMENTS=""
@@ -73,6 +78,7 @@ do
            --name ${NAME} \
            --hostname ${NAME} \
            --env USER_ID=$(id -u) \
+           --env OPENAIP_API_KEY=${OPENAIP_API_KEY} \
            --volume /etc/localtime:/etc/localtime:ro \
            --volume /etc/timezone:/etc/timezone:ro \
            --volume /etc/resolv.conf:/etc/resolv.conf:ro \
