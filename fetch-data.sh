@@ -21,6 +21,7 @@ mkdir -p ${DATA}
 
 cp "${SOURCE}"/gpx/* ${DATA}
 cp "${SOURCE}"/kml/* ${DATA}
+cp "${SOURCE}"/pln/* ${DATA}
 
 for year in $(seq 2020 2030)
 do
