@@ -50,6 +50,11 @@ do
     done
 done
 
+if [ -r ${HERE}/fetch-misc.sh ]
+then
+    . ${HERE}/fetch-misc.sh
+fi
+
 mkdir ${DATA}/pre-corona
 cp -avr ${DATA}/2020/* ${DATA}/pre-corona
 
