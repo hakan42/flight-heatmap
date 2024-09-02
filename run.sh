@@ -57,7 +57,7 @@ done
 
 if [ -z "${YEARS}" ]
 then
-    YEARS="2024 2024-07"
+    YEARS="2024 2024-08 2024-08-30 2024-09"
 fi
 
 for YEAR in ${YEARS}
