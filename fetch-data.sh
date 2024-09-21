@@ -39,8 +39,6 @@ do
     done
 done
 
-find ${DATA} -type d -a -empty | xargs --no-run-if-empty rmdir
-
 for d in ${DATA}/???? ${DATA}/????-??
 do
     cd ${d}
@@ -82,3 +80,6 @@ rm -f ${DATA}/post-solo/*2024-06-24*
 
 # We don't have good data in EDML during 2023
 rm -f ${DATA}/restarted/*2023-08-*
+
+# Clean up empty directories
+find ${DATA} -type d -a -empty | xargs --no-run-if-empty rmdir
