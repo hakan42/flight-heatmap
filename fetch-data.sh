@@ -67,10 +67,15 @@ cp -avr ${DATA}/2021/* ${DATA}/restarted
 cp -avr ${DATA}/2023/* ${DATA}/restarted
 cp -avr ${DATA}/2024/* ${DATA}/restarted
 
+# Post-Solo, Pre-Checkride
 mkdir -p ${DATA}/post-solo
 cp -avr ${DATA}/2024-06/* ${DATA}/post-solo
 cp -avr ${DATA}/2024-07/* ${DATA}/post-solo
 cp -avr ${DATA}/2024-08/* ${DATA}/post-solo
+cp -avr ${DATA}/2024-09/* ${DATA}/post-solo
+cp -avr ${DATA}/2024-10/* ${DATA}/post-solo
+cp -avr ${DATA}/2024-11/* ${DATA}/post-solo
+
 rm -f ${DATA}/post-solo/*2024-06-04*
 rm -f ${DATA}/post-solo/*2024-06-18*
 rm -f ${DATA}/post-solo/*2024-06-24*
