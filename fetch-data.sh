@@ -19,9 +19,13 @@ fi
 
 mkdir -p ${DATA}
 
+cp "${SOURCE}"/csv/* ${DATA}
 cp "${SOURCE}"/gpx/* ${DATA}
 cp "${SOURCE}"/kml/* ${DATA}
 cp "${SOURCE}"/pln/* ${DATA}
+
+find ${DATA} -name LOG\*     -exec rm {} \;
+find ${DATA} -name QTravel\* -exec rm {} \;
 
 for year in $(seq 2020 2030)
 do
