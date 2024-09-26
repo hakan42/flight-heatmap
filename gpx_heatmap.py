@@ -38,8 +38,9 @@ def calculate_bounds(data, bounds_file='bounds.json'):
 # tiles = f'https://{{s}}.api.tiles.openaip.net/api/data/openaip/{{z}}/{{x}}/{{y}}.png?key={api_key}'
 # attr = 'openAIP'
 def generate_heatmap(data, line_segments, file_names, output_html='heatmap.html', bounds=None, title_file=None):
-    # Get API key from environment variable
+    # Get API keys from environment variables
     openaip_api_key = os.getenv('OPENAIP_API_KEY')
+    mapbox_api_key = os.getenv('MAPBOX_API_KEY')  # Mapbox Satellite API key (required)
 
     # Create a Folium map without any default tile layer
     folium_map = folium.Map(location=[data['lat'].mean(), data['lon'].mean()], zoom_start=10, tiles=None)
@@ -61,6 +62,24 @@ def generate_heatmap(data, line_segments, file_names, output_html='heatmap.html'
         control=True
     )
     openaip.add_to(folium_map)
+
+    # Add Mapbox Satellite tile layer (requires API key)
+    mapbox_satellite = folium.TileLayer(
+        tiles=f'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{{z}}/{{x}}/{{y}}?access_token={mapbox_api_key}',
+        attr='Mapbox Satellite',
+        name='Satellite (Mapbox)',
+        control=True
+    )
+    mapbox_satellite.add_to(folium_map)
+
+    # Add Mapbox Satellite Streets tile layer (requires API key)
+    mapbox_satellite_streets = folium.TileLayer(
+        tiles=f'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/256/{{z}}/{{x}}/{{y}}?access_token={mapbox_api_key}',
+        attr='Mapbox Satellite Streets',
+        name='Satellite Streets (Mapbox)',
+        control=True
+    )
+    mapbox_satellite_streets.add_to(folium_map)
 
     # Add GPX track as a FeatureGroup and name it explicitly in the layer control
     gpx_track = folium.FeatureGroup(name="GPX Track", control=True)
@@ -110,25 +129,47 @@ def generate_heatmap(data, line_segments, file_names, output_html='heatmap.html'
 
         // Layer control
         var layers = {
-            'OpenStreetMap': map._layers[Object.keys(map._layers)[0]], // Assume OpenStreetMap is first
-            'openAIP': map._layers[Object.keys(map._layers)[1]] // Assume openAIP is second
+            'OpenStreetMap': map._layers[Object.keys(map._layers)[0]], // OpenStreetMap layer
+            'openAIP': map._layers[Object.keys(map._layers)[1]],       // openAIP layer
+            'Satellite (Mapbox)': map._layers[Object.keys(map._layers)[2]], // Mapbox Satellite layer
+            'Satellite Streets (Mapbox)': map._layers[Object.keys(map._layers)[3]] // Mapbox Satellite Streets layer
         };
 
-        // Switch basemap based on URL parameter, default is OpenStreetMap
+        // Switch basemap based on URL parameter
         if (baseMapParam === 'openaip') {
             map.removeLayer(layers['OpenStreetMap']);
+            map.removeLayer(layers['Satellite (Mapbox)']);
+            map.removeLayer(layers['Satellite Streets (Mapbox)']);
             map.addLayer(layers['openAIP']);
             history.pushState(null, '', '?basemap=openaip');
+        } else if (baseMapParam === 'satellite') {
+            map.removeLayer(layers['OpenStreetMap']);
+            map.removeLayer(layers['openAIP']);
+            map.removeLayer(layers['Satellite Streets (Mapbox)']);
+            map.addLayer(layers['Satellite (Mapbox)']);
+            history.pushState(null, '', '?basemap=satellite');
+        } else if (baseMapParam === 'satellitestreet') {
+            map.removeLayer(layers['OpenStreetMap']);
+            map.removeLayer(layers['openAIP']);
+            map.removeLayer(layers['Satellite (Mapbox)']);
+            map.addLayer(layers['Satellite Streets (Mapbox)']);
+            history.pushState(null, '', '?basemap=satellitestreet');
         } else {
             map.removeLayer(layers['openAIP']);
+            map.removeLayer(layers['Satellite (Mapbox)']);
+            map.removeLayer(layers['Satellite Streets (Mapbox)']);
             map.addLayer(layers['OpenStreetMap']);
             history.pushState(null, '', '?basemap=openstreetmap');
         }
 
-        // Update URL when the basemap is switched
+        // Update URL when the basemap is switched via the layer control
         map.on('baselayerchange', function(eventLayer) {
             if (eventLayer.name === 'openAIP') {
                 history.pushState(null, '', '?basemap=openaip');
+            } else if (eventLayer.name === 'Satellite (Mapbox)') {
+                history.pushState(null, '', '?basemap=satellite');
+            } else if (eventLayer.name === 'Satellite Streets (Mapbox)') {
+                history.pushState(null, '', '?basemap=satellitestreet');
             } else if (eventLayer.name === 'OpenStreetMap') {
                 history.pushState(null, '', '?basemap=openstreetmap');
             }

@@ -78,6 +78,7 @@ do
            --name ${NAME} \
            --hostname ${NAME} \
            --env USER_ID=$(id -u) \
+           --env MAPBOX_API_KEY=${MAPBOX_API_KEY} \
            --env OPENAIP_API_KEY=${OPENAIP_API_KEY} \
            --volume /etc/localtime:/etc/localtime:ro \
            --volume /etc/timezone:/etc/timezone:ro \
