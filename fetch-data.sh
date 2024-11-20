@@ -57,6 +57,11 @@ then
     . ${HERE}/fetch-misc.sh
 fi
 
+if [ -r ${HERE}/fetch-airfield-data.sh ]
+then
+    . ${HERE}/fetch-airfield-data.sh
+fi
+
 mkdir ${DATA}/pre-corona
 cp -avr ${DATA}/2020/* ${DATA}/pre-corona
 
