@@ -15,7 +15,7 @@ fi
 # 4.0.1 \
 # 4.0.2 \
 
-export DOCKER_IMAGE_NAME=gshome/flight-heatmap
+export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
 
 # Allow cache to be bypassed
 if [ "x${NO_CACHE}x" = "xtruex" ];

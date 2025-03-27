@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-export DOCKER_IMAGE_NAME=gshome/flight-heatmap
+export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
 export DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:latest
 
 export NAME=heatmap-$(id -un)
