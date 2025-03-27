@@ -9,13 +9,10 @@ else
     HERE=${WORKSPACE}
 fi
 
-# 3.0.0 \
-# 3.0.1 \
-# 4.0.0 \
-# 4.0.1 \
-# 4.0.2 \
-
-export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
+if [ "${DOCKER_IMAGE_NAME}x" = "x" ]
+then
+    export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
+fi
 
 # Allow cache to be bypassed
 if [ "x${NO_CACHE}x" = "xtruex" ];

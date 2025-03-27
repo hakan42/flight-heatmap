@@ -1,8 +1,5 @@
 #!/bin/sh -x
 
-export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
-export DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:latest
-
 export NAME=heatmap-$(id -un)
 
 if [ -z ${WORKSPACE} ]
@@ -11,6 +8,13 @@ then
 else
     HERE=${WORKSPACE}
 fi
+
+if [ "${DOCKER_IMAGE_NAME}x" = "x" ]
+then
+    export DOCKER_IMAGE_NAME=hakan42/flight-heatmap
+fi
+
+export DOCKER_IMAGE=${DOCKER_IMAGE_NAME}:latest
 
 DATA=${HERE}/data
 DATA=$(realpath ${DATA})
