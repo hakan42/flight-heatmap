@@ -26,39 +26,39 @@ then
 
         # echo ${DATE} - ${DATE_YYYY_MM_DD} - ${DATE_YYYY_MM} - ${DATE_YYYY} - ${AD_FROM} - ${AD_TO} - ${AD_FROM_ICAO} - ${AD_TO_ICAO}
 
-        if [ -r "${DATA}/${AD_FROM}-Platzrunde.gpx" ]
+        if [ -r "${DATA}/${AD_FROM_ICAO}-Platzrunde-g.gpx" ]
         then
             if [ -d ${DATA}/${DATE_YYYY} ]
             then
-                cp ${DATA}/${AD_FROM}-* ${DATA}/${DATE_YYYY}
+                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY}
             fi
 
             if [ -d ${DATA}/${DATE_YYYY_MM} ]
             then
-                cp ${DATA}/${AD_FROM}-* ${DATA}/${DATE_YYYY_MM_DD}
+                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
             fi
 
             if [ -d ${DATA}/${DATE_YYYY_MM} ]
             then
-                cp ${DATA}/${AD_FROM}-* ${DATA}/${DATE_YYYY_MM_DD}
+                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
             fi
         fi
 
-        if [ -r "${DATA}/${AD_TO}-Platzrunde.gpx" ]
+        if [ -r "${DATA}/${AD_TO_ICAO}-Platzrunde-g.gpx" ]
         then
             if [ -d ${DATA}/${DATE_YYYY} ]
             then
-                cp ${DATA}/${AD_TO}-* ${DATA}/${DATE_YYYY}
+                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY}
             fi
 
             if [ -d ${DATA}/${DATE_YYYY_MM} ]
             then
-                cp ${DATA}/${AD_TO}-* ${DATA}/${DATE_YYYY_MM_DD}
+                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
             fi
 
             if [ -d ${DATA}/${DATE_YYYY_MM} ]
             then
-                cp ${DATA}/${AD_TO}-* ${DATA}/${DATE_YYYY_MM_DD}
+                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
             fi
         fi
 
