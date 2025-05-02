@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-FLIGHTS=/mnt/blacklibrary/aviation/tracks/csv/Export-g.csv
+cp "${HOME}/resilio-sync/sync/Flight Tracks/csv/Export-g.csv" ${DATA}
+
+FLIGHTS=${DATA}/Export-g.csv
 FLIGHTS_CLEAN=/tmp/Export-g-$$.cvs
 
 cat ${FLIGHTS} | grep -v Bemerkung | grep -v Zeitspanne > ${FLIGHTS_CLEAN}
