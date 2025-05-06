@@ -69,6 +69,11 @@ mkdir ${DATA}/restarted
 cp -avr ${DATA}/2021/* ${DATA}/restarted
 cp -avr ${DATA}/2023/* ${DATA}/restarted
 cp -avr ${DATA}/2024/* ${DATA}/restarted
+cp -avr ${DATA}/2025-01/* ${DATA}/restarted
+cp -avr ${DATA}/2025-02/* ${DATA}/restarted
+cp -avr ${DATA}/2025-03/* ${DATA}/restarted
+cp -avr ${DATA}/2025-04/* ${DATA}/restarted
+cp -avr ${DATA}/2025-05/* ${DATA}/restarted
 
 # Post-Solo, Pre-Checkride
 mkdir -p ${DATA}/post-solo
