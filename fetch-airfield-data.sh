@@ -30,38 +30,24 @@ then
 
         if [ -r "${DATA}/${AD_FROM_ICAO}-Platzrunde-g.gpx" ]
         then
-            if [ -d ${DATA}/${DATE_YYYY} ]
-            then
-                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY}
-            fi
+            mkdir -p ${DATA}/${DATE_YYYY}
+            mkdir -p ${DATA}/${DATE_YYYY_MM}
+            mkdir -p ${DATA}/${DATE_YYYY_MM_DD}
 
-            if [ -d ${DATA}/${DATE_YYYY_MM} ]
-            then
-                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
-            fi
-
-            if [ -d ${DATA}/${DATE_YYYY_MM} ]
-            then
-                cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
-            fi
+            cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY}
+            cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM}
+            cp ${DATA}/${AD_FROM_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
         fi
 
         if [ -r "${DATA}/${AD_TO_ICAO}-Platzrunde-g.gpx" ]
         then
-            if [ -d ${DATA}/${DATE_YYYY} ]
-            then
-                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY}
-            fi
+            mkdir -p ${DATA}/${DATE_YYYY}
+            mkdir -p ${DATA}/${DATE_YYYY_MM}
+            mkdir -p ${DATA}/${DATE_YYYY_MM_DD}
 
-            if [ -d ${DATA}/${DATE_YYYY_MM} ]
-            then
-                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
-            fi
-
-            if [ -d ${DATA}/${DATE_YYYY_MM} ]
-            then
-                cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
-            fi
+            cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY}
+            cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM}
+            cp ${DATA}/${AD_TO_ICAO}-* ${DATA}/${DATE_YYYY_MM_DD}
         fi
 
     done < "${FLIGHTS_CLEAN}"
