@@ -5,7 +5,7 @@ cp "${HOME}/resilio-sync/sync/Flight Tracks/csv/Export-g.csv" ${DATA}
 FLIGHTS=${DATA}/Export-g.csv
 FLIGHTS_CLEAN=/tmp/Export-g-$$.cvs
 
-cat ${FLIGHTS} | grep -v Bemerkung | grep -v Zeitspanne > ${FLIGHTS_CLEAN}
+cat ${FLIGHTS} | grep -a -v Bemerkung | grep -a -v Zeitspanne > ${FLIGHTS_CLEAN}
 
 if [ -r ${FLIGHTS_CLEAN} ]
 then
