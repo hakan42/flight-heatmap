@@ -91,5 +91,19 @@ rm -f ${DATA}/post-solo/*2024-06-24*
 # We don't have good data in EDML during 2023
 rm -f ${DATA}/restarted/*2023-08-*
 
+# Post-Solo, Pre-Checkride
+mkdir -p ${DATA}/post-license
+cp -avr ${DATA}/2025-05-24/* ${DATA}/post-license
+cp -avr ${DATA}/2025-05-30/* ${DATA}/post-license
+cp -avr ${DATA}/2025-06/* ${DATA}/post-license
+cp -avr ${DATA}/2025-07/* ${DATA}/post-license
+cp -avr ${DATA}/2025-08/* ${DATA}/post-license
+cp -avr ${DATA}/2025-09/* ${DATA}/post-license
+cp -avr ${DATA}/2025-10/* ${DATA}/post-license
+cp -avr ${DATA}/2025-11/* ${DATA}/post-license
+cp -avr ${DATA}/2025-12/* ${DATA}/post-license
+rm -f ${DATA}/post-license/Flight*2025-06-19*
+rm -f ${DATA}/post-license/*2025-08-13*
+
 # Clean up empty directories
 find ${DATA} -type d -a -empty | xargs --no-run-if-empty rmdir
